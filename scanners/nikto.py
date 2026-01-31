@@ -13,7 +13,7 @@ def run_nikto(
     timeout: int = 900,
     ssl: bool = True,
     extra_args: Optional[list[str]] = None,
-):
+    ):
     output_dir.mkdir(parents=True, exist_ok=True)
     log_file = (output_dir / "nikto.txt").resolve()
     cmd = [
