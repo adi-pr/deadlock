@@ -1,6 +1,6 @@
 from pathlib import Path
 import typer
-from scanners import nikto
+from scanners import Nikto
 
 
 def call_nikto(args: dict):
@@ -9,7 +9,7 @@ def call_nikto(args: dict):
     Args:
         args (dict): dictionary from main flags are parsed from main()
     """
-    nikto.run_nikto(
+    Nikto.run_nikto(
         target=args["target"],
         timeout=args["timeout"],
     )

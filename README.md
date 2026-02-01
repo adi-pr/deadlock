@@ -7,6 +7,9 @@ python3 -m venv [EnvironmentName]
 pip install -r requirements.txt
 python cli.py (-h)
 ```
+
+- you need to set AWS_BEARER_TOKEN_BEDROCK in your environmental vars to use the AI functionality 
+
 ### Future features
 - Link to metasploit auxilary payloads to generate confirmation of vulnerabilities
 - Nmap scanning for autonomous port scanning
