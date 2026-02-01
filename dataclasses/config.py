@@ -7,13 +7,13 @@ from pathlib import Path
 # - Target Info -
 @dataclass
 class Target:
-    target: str = "0.0.0.0"                             # Target IPv4
-    open_ports: Dict[str, int] = field(default_factory=dict)  # e.g. {"SSH": 22}
-    cve_list: List[str] = field(default_factory=list)        # List of discovered vulnerabilities
-    export: bool = False                                     # Turns on export from flag
-    output_dir: Optional[Path] = None                        # Output directory
+    target: str = "0.0.0.0"                                     # Target IPv4
+    open_ports: Dict[str, int] = field(default_factory=dict)    # e.g. {"SSH": 22}
+    cve_list: List[str] = field(default_factory=list)           # List of discovered vulnerabilities
+    export: bool = False                                        # Turns on export from flag
+    output_dir: Optional[Path] = None                           # Output directory
 
-    def __post_init__(self):                                 # Generate output directory (default if flag is called and no output set)
+    def __post_init__(self):                                    # Generate output directory (default if flag is called and no output set)
         if self.output_dir is None:
             # Automatically set output_dir based on target
             self.output_dir = Path(f"./target/{self.target}.txt")

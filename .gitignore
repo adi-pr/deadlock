@@ -207,5 +207,5 @@ marimo/_lsp/
 __marimo__/
 
 
-output/
+nikto_output/
 logs/ 

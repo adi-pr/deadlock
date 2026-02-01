@@ -12,6 +12,7 @@ def call_nikto(args: dict):
     Nikto.run_nikto(
         target=args["target"],
         timeout=args["timeout"],
+        output_dir=args["output"],
     )
 
 def main(
