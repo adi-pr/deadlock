@@ -27,7 +27,7 @@ class TargetList:
 ##  - Nikto - 
 @dataclass
 class NiktoArgs:
-    target: str = Target.Target
+    target: str = Target.target
     output_dir: Path
     timeout: int = 900
     ssl: bool = True
@@ -36,7 +36,7 @@ class NiktoArgs:
 ## - Nmap PLACEHOLDER - 
 @dataclass
 class NmapArgs:
-    target: str = Target.Target                     
+    target: str = Target.target                     
     output_dir: Path                 
     ports: Optional[str] = None        
     scan_type: Optional[str] = None     
