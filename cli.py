@@ -17,7 +17,7 @@ def call_nikto(args: dict):
 
 def call_exploitgen(cve_id, target,maxRetries = 5, generate_type = "scanner"):
     try:
-        Exploit_Gen.generate_exploit(cve_id, target, maxRetries,generate_type)
+        Exploit_Gen.generate_exploit(cve_id, target, maxRetries=maxRetries, generate_type=generate_type)
     except:
         print("Unhandled exception please log on the github repo")
     
@@ -44,14 +44,20 @@ def main(
             "exploit",
             "--type",
             "-t",
-            help="exploit/scanner",
+            help="exploit or scanner",
+        ),
+        maxRetries: int | None = typer.Option(
+            "5",
+            "--retries",
+            "-r",
+            help="for developers set this to 2 only",
         ),
     ):
     print("Deadlock CLI is running.")
     if cve_id: 
-        call_exploitgen(cve_id, attack_type)
+        print(f"calling exploit for {cve_id} with {maxRetries} retries")
+        call_exploitgen(cve_id, attack_type, maxRetries)
     else:
-    
         call_nikto(locals()) # be careful to keep locals the same name
 
 
