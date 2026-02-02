@@ -207,7 +207,7 @@ marimo/_lsp/
 __marimo__/
 
 
-nikto_output/
+*_output/
 logs/ 
 
 # any exploits generated

@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # Developer credits: Aditiya (Ruben) Prasad & Casrepoclone
-from pathlib import Path
+from pathlib import Path 
 import typer
-from scanners import Nikto
+from scanners import * 
 from GenAttacks import Exploit_Gen
 from fun import menuanimation
 from time import sleep
@@ -15,6 +15,19 @@ def call_nikto(args: dict):
         args (dict): dictionary from main flags are parsed from main()
     """
     Nikto.run_nikto(
+        target=args["target"],
+        timeout=args["timeout"],
+        output_dir=args["output"],
+    )
+
+def call_nmap(args: dict):
+    """Calls nmap CLI and generates output based on tgt paramaters
+
+    Args:
+        args (dict): dictionary from main flags are parsed from main()
+    """
+    from scanners import Nmap
+    Nmap.run_nmap(
         target=args["target"],
         timeout=args["timeout"],
         output_dir=args["output"],
@@ -89,7 +102,8 @@ def main(
     
     # otherwise find vulns to exploit 
     else:
-        call_nikto(locals()) # be careful to keep locals the same name
+        # call_nikto(locals()) # be careful to keep locals the same name
+        call_nmap(locals())
 
 
     
