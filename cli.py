@@ -1,7 +1,7 @@
 from pathlib import Path
 import typer
 from scanners import Nikto
-
+from GenAttacks import Exploit_Gen
 
 def call_nikto(args: dict):
     """Calls nikto CLI and generates output based on tgt paramaters
@@ -15,6 +15,11 @@ def call_nikto(args: dict):
         output_dir=args["output"],
     )
 
+def call_exploitgen(cve_id, target,maxRetries = 5, generate_type = "scanner"):
+    Exploit_Gen.generate_exploit()
+    
+
+# python cli.py --help to list flags
 def main(
         target: str, 
         web: bool = False,
@@ -26,8 +31,21 @@ def main(
             "-o",
             help="Output directory",
         ),
+        cve_id: str | None = typer.Option(
+            None,
+            "--generate",
+            "-g",
+            help="CVE ID",
+        ),
+        attack_type: str | None = typer.Option(
+            "exploit",
+            "--type",
+            "-t",
+            help="exploit/scanner",
+        ),
     ):
-    
+    if cve_id: 
+        call_exploitgen(cve_id, attack_type)
     print("Deadlock CLI is running.")
     call_nikto(locals()) # be careful to keep locals the same name
 
