@@ -209,3 +209,9 @@ __marimo__/
 
 nikto_output/
 logs/ 
+
+# any exploits generated
+CVE*
+./CVE*
+CVE*.*
+CVE*.py
