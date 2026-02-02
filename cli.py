@@ -39,6 +39,9 @@ def call_exploitgen(cve_id, target,maxRetries = 5, generate_type = "scanner"):
         Exploit_Gen.generate_exploit(cve_id, target, maxRetries=maxRetries, generate_type=generate_type)
     except:
         print("Unhandled exception please log on the github repo")
+        
+def call_metasploit(target):
+    Metasploit.run_metasploit(target)
 
 def check_file(FilePath) -> bool:
     my_file = Path(FilePath)
@@ -102,8 +105,9 @@ def main(
     
     # otherwise find vulns to exploit 
     else:
-        call_nikto(locals()) # be careful to keep locals the same name
-        call_nmap(locals())
+        # call_nikto(locals()) # be careful to keep locals the same name
+        # call_nmap(locals())
+        call_metasploit(locals()["target"])
 
 
     
