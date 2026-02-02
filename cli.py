@@ -1,8 +1,13 @@
+#!/usr/bin/env python3
+# Developer credits: Aditiya (Ruben) Prasad & Casrepoclone
 from pathlib import Path
 import typer
 from scanners import Nikto
 from GenAttacks import Exploit_Gen
 from fun import menuanimation
+from time import sleep
+from pathlib import Path
+
 def call_nikto(args: dict):
     """Calls nikto CLI and generates output based on tgt paramaters
 
@@ -21,10 +26,18 @@ def call_exploitgen(cve_id, target,maxRetries = 5, generate_type = "scanner"):
         Exploit_Gen.generate_exploit(cve_id, target, maxRetries=maxRetries, generate_type=generate_type)
     except:
         print("Unhandled exception please log on the github repo")
-    
+
+def check_file(FilePath) -> bool:
+    my_file = Path(FilePath)
+    if my_file.is_file(): 
+        return True
+    else:
+        return False    
 
 # python cli.py --help to list flags
 def main(
+    # so far used chars
+    # -o -g -t -r 
         target: str, 
         web: bool = False,
         exploit: bool = False,
@@ -33,35 +46,48 @@ def main(
             None,
             "--output",
             "-o",
-            help="Output directory",
+            help="Output directory e.g. -o ./Ishouldntseethis.txt",
         ),
         cve_id: str | None = typer.Option(
             None,
             "--generate",
             "-g",
-            help="CVE ID",
+            help="CVE ID e.g. -g CVE-2025-67420",
         ),
         attack_type: str | None = typer.Option(
             "exploit",
             "--type",
             "-t",
-            help="exploit or scanner",
+            help="exploit or scanner e.g. -t scanner",
         ),
         maxRetries: int | None = typer.Option(
             "5",
             "--retries",
             "-r",
-            help="for developers set this to 2 only",
+            help="for developers set this to 2 only e.g. -r 2",
+        ),
+        list: Path | None = typer.Option(
+            None,
+            "--list",
+            "-l",
+            help="target list location e.g. --list ./targets.txt",
         ),
     ):
-    
+ 
     print("Deadlock CLI is running.")
-    
+    if list:
+        print("I see you are using a list are you sure you know what you're doing")
+        sleep(2)
+        if check_file(list):
+            print("file validated as existing... nice work")
+        else:
+            print("please check your filepath it doesn't exist are you sure you have it in the right directory")
     # if we know the CVE start attack
     if cve_id: 
         print(f"calling exploit for {cve_id} with {maxRetries} retries")
         call_exploitgen(cve_id, attack_type, maxRetries)
-    # otherwise find vulns
+    
+    # otherwise find vulns to exploit 
     else:
         call_nikto(locals()) # be careful to keep locals the same name
 
