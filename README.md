@@ -20,7 +20,10 @@ pip install -r requirements.txt
 python cli.py (--help)
 ```
 
-- you need to set AWS_BEARER_TOKEN_BEDROCK in your environmental vars to use the AI functionality 
+- you need to set AWS_BEARER_TOKEN_BEDROCK in your environmental vars to use the AI functionality
+
+### Decison making process
+<img width="538" height="495" alt="image" src="https://github.com/user-attachments/assets/fc44932b-5f0c-4e65-8f76-05654a0b035c" />
 
 ### Future features
 - Link to metasploit auxilary payloads to generate confirmation of vulnerabilities
