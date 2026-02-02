@@ -2,7 +2,7 @@ from pathlib import Path
 import typer
 from scanners import Nikto
 from GenAttacks import Exploit_Gen
-
+from fun import menuanimation
 def call_nikto(args: dict):
     """Calls nikto CLI and generates output based on tgt paramaters
 
@@ -16,6 +16,7 @@ def call_nikto(args: dict):
     )
 
 def call_exploitgen(cve_id, target,maxRetries = 5, generate_type = "scanner"):
+    menuanimation.run()
     try:
         Exploit_Gen.generate_exploit(cve_id, target, maxRetries=maxRetries, generate_type=generate_type)
     except:
@@ -53,10 +54,14 @@ def main(
             help="for developers set this to 2 only",
         ),
     ):
+    
     print("Deadlock CLI is running.")
+    
+    # if we know the CVE start attack
     if cve_id: 
         print(f"calling exploit for {cve_id} with {maxRetries} retries")
         call_exploitgen(cve_id, attack_type, maxRetries)
+    # otherwise find vulns
     else:
         call_nikto(locals()) # be careful to keep locals the same name
 
