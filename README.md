@@ -1,11 +1,23 @@
-## Deadlock CLI
+```text
+██████╗ ███████╗ █████╗ ██████╗ ██╗      ██████╗  ██████╗██╗  ██╗
+██╔══██╗██╔════╝██╔══██╗██╔══██╗██║     ██╔═══██╗██╔════╝██║ ██╔╝
+██║  ██║█████╗  ███████║██║  ██║██║     ██║   ██║██║     █████╔╝ 
+██║  ██║██╔══╝  ██╔══██║██║  ██║██║     ██║   ██║██║     ██╔═██╗ 
+██████╔╝███████╗██║  ██║██████╔╝███████╗╚██████╔╝╚██████╗██║  ██╗
+╚═════╝ ╚══════╝╚═╝  ╚═╝╚═════╝ ╚══════╝ ╚═════╝  ╚═════╝╚═╝  ╚═╝
+```
+# DeadLock CLI
 - Deadlock is an AI-targeting Autonomous threat actor designed to highlight the threat of AI in the cyberspace
+- Deadlock takes a single ip address and a target and mutates its attacks to optimise successful attacks on targets
+- Please use this responsibly for its intended purpose of research
 
 ### Setup
+> This system is currently focused for Kali linux but can work on any linux distro if correct modules are installed
+
 ```python
 python3 -m venv [EnvironmentName]
 pip install -r requirements.txt
-python cli.py (-h)
+python cli.py (--help)
 ```
 
 - you need to set AWS_BEARER_TOKEN_BEDROCK in your environmental vars to use the AI functionality 
@@ -13,9 +25,8 @@ python cli.py (-h)
 ### Future features
 - Link to metasploit auxilary payloads to generate confirmation of vulnerabilities
 - Nmap scanning for autonomous port scanning
-
-### Core feature to implement
-- CVEs come out daily and are able to be exploited by someone with the right know-how. Our AI agent will use random seeds and a vulnerability explanation to create attacks live on vulnerabilities without the need for premade modules
+- server connection ability to run on AWS, Digitalocean instances with minimal setup to replicate Kali Environment
+- Windows support 
 
 <h3>LEGAL NOTICE</h3>
 This material is provided solely for educational, research, and defensive purposes. It is intended to support learning, academic discussion, and the improvement of security awareness and protective technologies.
