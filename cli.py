@@ -102,8 +102,8 @@ def main(
     
     # otherwise find vulns to exploit 
     else:
-        call_nikto(locals()) # be careful to keep locals the same name
-        call_nmap(locals())
+        nikto_result = call_nikto(locals()) # be careful to keep locals the same name
+        nmap_result = call_nmap(locals())
 
 
     

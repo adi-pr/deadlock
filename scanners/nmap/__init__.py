@@ -59,5 +59,4 @@ def run_nmap(
         "error": (result.get("stderr") or "").strip() if result.get("exit_code") not in (None, 0) else None,
     }
 
-    print(summary
-)
+    print(summary)
