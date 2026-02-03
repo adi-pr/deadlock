@@ -215,3 +215,7 @@ CVE*
 ./CVE*
 CVE*.*
 CVE*.py
+
+# nikto output folder
+./nikto_output
+nikto_output
