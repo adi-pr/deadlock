@@ -33,6 +33,15 @@ def call_nmap(args: dict):
         output_dir=args["output"],
     )
 
+def call_metaploit(args: dict):
+    from scanners import Metasploit
+    Metasploit.run_metasploit(
+        target=args["target"],
+        timeout=args["timeout"],
+        output_dir=args["output"],
+        msf_profiles=args["msf_profiles"],
+    )
+
 def call_exploitgen(cve_id, target, maxRetries=5, generate_type="scanner"):
     menuanimation.run()
     try:
@@ -79,6 +88,13 @@ def scan(
     attack_type: str = typer.Option("exploit", "-t", "--type"),
     maxRetries: int = typer.Option(5, "-r", "--retries"),
     list: Path | None = typer.Option(None, "-l", "--list"),
+    
+    msf_profiles: list[str] = typer.Option(
+        None,
+        "-p",
+        "--msf-profiles",
+        help="Metasploit scan profiles to use",
+    ),
 ):
     """Run scans and optionally exploit findings"""
 
@@ -102,8 +118,9 @@ def scan(
         call_exploitgen(cve_id, target, maxRetries, attack_type)
         return
 
-    #nikto_result = call_nikto(locals())
-    #nmap_result = call_nmap(locals())
+    # #nikto_result = call_nikto(locals())
+    # #nmap_result = call_nmap(locals())
+    call_metaploit(locals())
 
     #Summary_Gen.generate_summary(
     #    stdout=f"## Nikto ## {nikto_result}\n## Nmap ## {nmap_result}"
