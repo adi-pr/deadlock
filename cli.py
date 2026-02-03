@@ -115,10 +115,11 @@ def main(
     
     # otherwise find vulns to exploit 
     else:
-        nikto_result = call_nikto(locals()) # be careful to keep locals the same name
-        nmap_result = call_nmap(locals())
+        pass
+        #nikto_result = call_nikto(locals()) # be careful to keep locals the same name
+        #nmap_result = call_nmap(locals())
         # check this line it needs testing on kali
-        Summary_Gen.generate_summary(stdout=f" ## Nikto output ## {nikto_result} ## Nmap output ## {nmap_result}")
+        #Summary_Gen.generate_summary(stdout=f" ## Nikto output ## {nikto_result} ## Nmap output ## {nmap_result}")
 
 
     
