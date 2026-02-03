@@ -100,23 +100,23 @@ def scan(
 
     print("Deadlock CLI is running.")
 
-    if list:
-        print("Using target list — make sure you know what you're doing")
-        sleep(2)
-    if not check_file(list):
-        typer.echo("Target list does not exist")
-        raise typer.Exit(code=1)
-    else:
-        print("target list exists setting recursive mode")
+    # if list:
+    #     print("Using target list — make sure you know what you're doing")
+    #     sleep(2)
+    # if not check_file(list):
+    #     typer.echo("Target list does not exist")
+    #     raise typer.Exit(code=1)
+    # else:
+    #     print("target list exists setting recursive mode")
         
-    target = dns_to_ip(target) # automatically take either domain name or ipv4 and resolve it
-    print(f"current target is {target}")
-    sleep(2)
+    # target = dns_to_ip(target) # automatically take either domain name or ipv4 and resolve it
+    # print(f"current target is {target}")
+    # sleep(2)
    
-    if cve_id:
-        print(f"Calling exploit for {cve_id} with {maxRetries} retries")
-        call_exploitgen(cve_id, target, maxRetries, attack_type)
-        return
+    # if cve_id:
+    #     print(f"Calling exploit for {cve_id} with {maxRetries} retries")
+    #     call_exploitgen(cve_id, target, maxRetries, attack_type)
+    #     return
 
     # #nikto_result = call_nikto(locals())
     # #nmap_result = call_nmap(locals())

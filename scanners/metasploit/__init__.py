@@ -1,4 +1,5 @@
 from pymetasploit3.msfrpc import MsfRpcClient
+from . import profile as msf_profile
 
 from pathlib import Path
 from typing import Optional
@@ -20,6 +21,20 @@ def run_metasploit(
     
     print("Extra args: ", msf_profiles)
     
+    print("Loading Metasploit profiles...")
+    selected_modules = set()
+    if msf_profiles:
+        for profile_name in msf_profiles:
+            profile_modules = msf_profile.PROFILES.get(profile_name)
+            if profile_modules:
+                selected_modules.update(profile_modules)
+            else:
+                print(f"Warning: Profile '{profile_name}' not found.")
+    else:
+        selected_modules = msf_profile.PROFILES["standard"]
+    
+    print(f"Selected modules: {selected_modules}")
+    
     # password = prompt("Enter Metasploit RPC password", hide_input=True)
     # client = MsfRpcClient(password)
 
@@ -32,27 +47,5 @@ def run_metasploit(
     # with log_file.open('w') as f:
     #     f.write(str(result))
 
-    print(f"Metasploit scan completed. Results saved to {log_file}")
-    
-def load_profiles(args: list[str]):
-    from . import profile
-    
-    profiles = {}
-    
-    if args is None or len(args) == 0:
-        profiles["recon"] = profile.RECON_MODULES
-        
-    else:
-        for arg in args:
-            if arg == "recon":
-                profiles["recon"] = profile.RECON_MODULES
-            elif arg == "generic_web_vulns":
-                profiles["generic_web_vulns"] = profile.GENERIC_WEB_VULNS
-            elif arg == "wordpress":
-                profiles["wordpress"] = profile.WORDPRESS_MODULES
-            elif arg == "cms":
-                profiles["cms"] = profile.CMS_MODULES
-                
-    return profiles
-    
+    print(f"Metasploit scan completed. Results saved to {log_file}") 
     

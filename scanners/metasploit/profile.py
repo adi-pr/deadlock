@@ -1,11 +1,3 @@
-VALID_PROFILES = {
-    "recon",
-    "standard",
-    "full",
-    "wordpress",
-    "cms",
-}
-
 RECON_MODULES = {
     "scanner/http/http_version",
     "scanner/http/http_header",
@@ -46,4 +38,12 @@ CMS_MODULES = {
     "scanner/http/drupal_scanner",
     "scanner/http/magento_scanner",
     "scanner/http/vbulletin_scanner",
+}
+
+PROFILES = {
+    "recon": RECON_MODULES,
+    "standard": RECON_MODULES | GENERIC_WEB_VULNS,
+    "full": RECON_MODULES | GENERIC_WEB_VULNS | WORDPRESS_MODULES | CMS_MODULES,
+    "wordpress": WORDPRESS_MODULES,
+    "cms": CMS_MODULES,
 }
