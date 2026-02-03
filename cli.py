@@ -5,7 +5,8 @@ from scanners import *
 from GenAttacks import Exploit_Gen, Summary_Gen
 from fun import menuanimation
 from time import sleep
-
+import socket, re
+from time import sleep
 app = typer.Typer(
     help="""
  Deadlock CLI
@@ -45,6 +46,13 @@ def call_exploitgen(cve_id, target, maxRetries=5, generate_type="scanner"):
 
 def check_file(path: Path) -> bool:
     return path.is_file()
+
+def dns_to_ip(domain_name) -> str:
+    if re.search(r"[a-zA-Z]", domain_name):
+        ip = socket.gethostbyname(domain_name)
+    else:
+        print("ip has been given")
+    return ip
 #endregion
 ## Testing commands 
 
@@ -54,6 +62,11 @@ def check_file(path: Path) -> bool:
 def test_functionality():
     """Run internal tests"""
     Summary_Gen.test_functionality()
+    if "142.251" in dns_to_ip("google.com"): # only check part of the domain name not the exact device (not perfect validation but still)
+        print("Dns to Ip working")
+    else:
+        print(dns_to_ip("google.com")) 
+        print("testcase failed")
 
 @app.command()
 def scan(
@@ -72,23 +85,29 @@ def scan(
     print("Deadlock CLI is running.")
 
     if list:
-        print("Using target list — make sure you know what you're doing 😈")
+        print("Using target list — make sure you know what you're doing")
         sleep(2)
-        if not check_file(list):
-            typer.echo("Target list does not exist")
-            raise typer.Exit(code=1)
-
+    if not check_file(list):
+        typer.echo("Target list does not exist")
+        raise typer.Exit(code=1)
+    else:
+        print("target list exists setting recursive mode")
+        
+    target = dns_to_ip(target) # automatically take either domain name or ipv4 and resolve it
+    print(f"current target is {target}")
+    sleep(2)
+   
     if cve_id:
         print(f"Calling exploit for {cve_id} with {maxRetries} retries")
         call_exploitgen(cve_id, target, maxRetries, attack_type)
         return
 
-    nikto_result = call_nikto(locals())
-    nmap_result = call_nmap(locals())
+    #nikto_result = call_nikto(locals())
+    #nmap_result = call_nmap(locals())
 
-    Summary_Gen.generate_summary(
-        stdout=f"## Nikto ## {nikto_result}\n## Nmap ## {nmap_result}"
-    )
+    #Summary_Gen.generate_summary(
+    #    stdout=f"## Nikto ## {nikto_result}\n## Nmap ## {nmap_result}"
+    #)
 
 @app.command()
 def AutoMode():
