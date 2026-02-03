@@ -4,6 +4,7 @@ from pathlib import Path
 import typer
 from scanners import * 
 from GenAttacks import Exploit_Gen
+from GenAttacks import Summary_Gen # for testmode
 from fun import menuanimation
 from time import sleep
 from pathlib import Path
@@ -55,6 +56,12 @@ def main(
         web: bool = False,
         exploit: bool = False,
         timeout: int = 900,
+        testmode: bool | None = typer.Option(
+            False,
+            "--testmode",
+            "-7",
+            help="True/False to start tests"
+        ),
         output: Path | None = typer.Option(
             None,
             "--output",
@@ -88,6 +95,12 @@ def main(
     ):
  
     print("Deadlock CLI is running.")
+    
+    if testmode:
+        test_summary = Summary_Gen.test_functionality()
+    else:pass
+        
+        
     if list:
         print("I see you are using a list are you sure you know what you're doing")
         sleep(2)
@@ -104,6 +117,8 @@ def main(
     else:
         nikto_result = call_nikto(locals()) # be careful to keep locals the same name
         nmap_result = call_nmap(locals())
+        # check this line it needs testing on kali
+        Summary_Gen.generate_summary(stdout=f" ## Nikto output ## {nikto_result} ## Nmap output ## {nmap_result}")
 
 
     
