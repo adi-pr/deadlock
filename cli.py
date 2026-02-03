@@ -116,10 +116,24 @@ def main(
     # otherwise find vulns to exploit 
     else:
         pass
-        #nikto_result = call_nikto(locals()) # be careful to keep locals the same name
-        #nmap_result = call_nmap(locals())
+        nikto_result = call_nikto(locals()) # be careful to keep locals the same name
+        nmap_result = call_nmap(locals())
         # check this line it needs testing on kali
-        #Summary_Gen.generate_summary(stdout=f" ## Nikto output ## {nikto_result} ## Nmap output ## {nmap_result}")
+        Summary_Gen.generate_summary(stdout=f" ## Nikto output ## {nikto_result} ## Nmap output ## {nmap_result}")
+        
+        ## -- Psuedocode --
+        # if basemode is equal to Hitl = human in the loop
+        # for target in targetlist 
+            # Nmap_result = Call_nmap (done)
+            # nikto_result = call_nikto (done)
+            # burpsuite_result = call_burpsuite
+            # wp_scan_result = call_wpscan
+            # owasp_result = call_owasp
+            # cvelist = Summary_gen.generatesummary
+            # for cve_id in cvelist:
+                #call_exploitgen(cve_id, attack_type, maxRetries)
+        #else:
+            # let the ai call any function and run from terminal directly (dangerous as fuck)
 
 
     
