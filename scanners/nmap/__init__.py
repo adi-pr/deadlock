@@ -11,7 +11,7 @@ def run_nmap(
     extra_args: Optional[list[str]] = None,
     ):
 
-    if output_dir is None:
+    if output_dir is None: # CHANGE REQUIRED -  delete output as we just store stdout live unless output is requested by user
         output_dir = Path.cwd() / "nmap_output"
 
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -26,7 +26,7 @@ def run_nmap(
         "-oN",
         str(log_file),
         target,
-    ]
+    ] # add these to dataclass/config.py so we can modify all commands from one file 
     
     print(f"Running Nmap scan on target: {target} with scan type: {scan_flag}")
     print(f"Command: {' '.join(cmd)}")
