@@ -40,4 +40,18 @@ class NmapArgs:
     output_dir: Path                 
     ports: Optional[str] = None        
     scan_type: Optional[str] = None     
-    extra_args: Optional[List[str]] = None  
+    extra_args: Optional[List[str]] = None
+    
+    cmd: List[str] = field(default_factory=lambda: [
+        "sudo",
+        "nmap",
+        "-sS",
+        "-sV",
+        "-O",
+        "-p-",
+        "--open",
+        "--script=http-title,http-headers,http-methods",
+        "-oN",
+        "{log_file}",
+        "{target}",
+    ])
