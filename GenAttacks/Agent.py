@@ -1,10 +1,6 @@
 import boto3
 import json
 import re
-from time import sleep
-import subprocess
-from pathlib import Path
-
 
 def instanciate_agent(message, prompt, strip_markup=True):
     client = boto3.client("bedrock-runtime", region_name="eu-west-2") # our model is limited to whats available in the region
@@ -42,7 +38,7 @@ def instanciate_agent(message, prompt, strip_markup=True):
     # strip the markup out of the response
     if strip_markup:
         clean_output = re.sub(r"^```(?:python)?\n|```$", "", text, flags=re.MULTILINE)
+        return clean_output
     else:
-        text = clean_output
-    return clean_output
+        return text
     

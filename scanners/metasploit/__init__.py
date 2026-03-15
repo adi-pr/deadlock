@@ -1,5 +1,6 @@
 from pymetasploit3.msfrpc import MsfRpcClient
-from . import profile as msf_profile
+from GenAttacks import Auxillary_Gen
+from auxillary.get_output import get_output_file as get_output
 
 from pathlib import Path
 from typing import Optional
@@ -11,26 +12,28 @@ def run_metasploit(
     target: str,
     output_dir: Optional[Path],
     timeout: int = 900,
-    msf_profiles: Optional[list[str]] = ["recon"],
 ): 
     if output_dir is None:
         output_dir = Path.cwd() / "metasploit_output"
-
     output_dir.mkdir(parents=True, exist_ok=True)
     log_file = (output_dir / "metasploit.txt").resolve()
 
     print(f"Running Metasploit scan on target: {target}")
     
-    print("Extra args: ", msf_profiles)
-    
-    print("Loading Metasploit profiles...")
-    selected_modules = load_msf_profiles(msf_profiles or ["recon"])
-    
-    print(f"Selected modules: {selected_modules}")
+    nmap_output = get_output("nmap")
+    nikto_output = get_output("nikto")
     
     password = prompt("Enter Metasploit RPC password", hide_input=True)
     client = MsfRpcClient(password)
-
+    
+    available_modules = client.modules.auxiliary
+    
+    selected_modules = Auxillary_Gen.generate_auxillary(
+        available_modules,
+        nmap_output,
+        nikto_output,
+    )
+    
     with log_file.open("w") as f:
         for module_name in selected_modules:
             print(f"Running module: {module_name}")
@@ -47,17 +50,6 @@ def run_metasploit(
             f.write("\n")
             
     print(f"Metasploit scan completed. Results saved to {log_file}")
-
-
-def load_msf_profiles(profiles: list[str]) -> set[str]:
-    selected_modules = set()
-    for profile_name in profiles:
-        profile_modules = msf_profile.PROFILES.get(profile_name)
-        if profile_modules:
-            selected_modules.update(profile_modules)
-        else:
-            print(f"Warning: Profile '{profile_name}' not found.")
-    return selected_modules
 
 def clean_metasploit_output(output: str) -> str:
     """Remove ASCII art and banner text from Metasploit output."""

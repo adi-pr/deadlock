@@ -7,28 +7,30 @@ def run_nmap(
     target: str,
     output_dir: Optional[Path],
     timeout: int = 900,
-    scan_type: str = "SYN",
     extra_args: Optional[list[str]] = None,
     ):
 
     if output_dir is None: # CHANGE REQUIRED -  delete output as we just store stdout live unless output is requested by user
-        output_dir = Path.cwd() / "nmap_output"
+        output_dir = Path.cwd() / "output" / "nmap_output"
 
     output_dir.mkdir(parents=True, exist_ok=True)
     log_file = (output_dir / "nmap.txt").resolve()
 
-    scan_flag = "-sS" if scan_type.upper() == "SYN" else "-sT"
-
     cmd = [
         "sudo",
         "nmap",
-        scan_flag,
+        "-sS",
+        "-sV",
+        "-O",
+        "-p-",
+        "--open",
+        "--script=http-title,http-headers,http-methods",
         "-oN",
         str(log_file),
         target,
-    ] # add these to dataclass/config.py so we can modify all commands from one file 
+    ]
     
-    print(f"Running Nmap scan on target: {target} with scan type: {scan_flag}")
+    print(f"Running Nmap scan on target: {target}")
     print(f"Command: {' '.join(cmd)}")
 
     if extra_args:

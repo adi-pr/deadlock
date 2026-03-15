@@ -208,6 +208,7 @@ __marimo__/
 
 
 *_output/
+output/
 logs/ 
 
 # any exploits generated

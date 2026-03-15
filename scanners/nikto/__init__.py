@@ -12,7 +12,7 @@ def run_nikto(
     ):
 
     if output_dir is None:
-        output_dir = Path.cwd() / "nikto_output"
+        output_dir = Path.cwd() / "output" / "nikto_output"
 
     output_dir.mkdir(parents=True, exist_ok=True)
     log_file = (output_dir / "nikto.txt").resolve()

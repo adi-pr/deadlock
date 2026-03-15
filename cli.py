@@ -6,7 +6,6 @@ from GenAttacks import Exploit_Gen, Summary_Gen
 from fun import menuanimation
 from time import sleep
 import socket, re
-from time import sleep
 app = typer.Typer(
     help="""
  Deadlock CLI
@@ -26,7 +25,6 @@ def call_nikto(args: dict):
     )
 
 def call_nmap(args: dict):
-    from scanners import Nmap
     Nmap.run_nmap(
         target=args["target"],
         timeout=args["timeout"],
@@ -34,12 +32,10 @@ def call_nmap(args: dict):
     )
 
 def call_metaploit(args: dict):
-    from scanners import Metasploit
     Metasploit.run_metasploit(
         target=args["target"],
         timeout=args["timeout"],
         output_dir=args["output"],
-        msf_profiles=args["msf_profiles"],
     )
 
 def call_exploitgen(cve_id, target, maxRetries=5, generate_type="scanner"):
@@ -88,13 +84,6 @@ def scan(
     attack_type: str = typer.Option("exploit", "-t", "--type"),
     maxRetries: int = typer.Option(5, "-r", "--retries"),
     list: Path | None = typer.Option(None, "-l", "--list"),
-    
-    msf_profiles: list[str] = typer.Option(
-        ["recon"],
-        "-p",
-        "--msf-profiles",
-        help="Metasploit scan profiles to use",
-    ),
 ):
     """Run scans and optionally exploit findings"""
 
