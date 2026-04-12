@@ -17,18 +17,20 @@ Only target systems you own or are authorized to test on.
 )
 
 #region hook function
-def call_nikto(args: dict):
+def call_nikto(args: dict, flag: str):
     Nikto.run_nikto(
         target=args["target"],
         timeout=args["timeout"],
         output_dir=args["output"],
+        flag=flag
     )
 
-def call_nmap(args: dict):
+def call_nmap(args: dict, flag: str):
     Nmap.run_nmap(
         target=args["target"],
         timeout=args["timeout"],
         output_dir=args["output"],
+        flag=flag
     )
 
 def call_metaploit(args: dict):
@@ -114,6 +116,25 @@ def scan(
     #Summary_Gen.generate_summary(
     #    stdout=f"## Nikto ## {nikto_result}\n## Nmap ## {nmap_result}"
     #)
+
+@app.command()
+def recon(
+    target: str,
+    timeout: int = 900,
+    output: Path = typer.Option(..., "-o", "--output"),
+    web: bool = False,
+):
+    """Run reconnaissance scans"""
+    
+    target = dns_to_ip(target)
+    print(f"current target is {target}")
+    sleep(2)
+
+    call_nmap(locals(), flag="recon")
+
+    if web:
+        call_nikto(locals(), flag="recon")
+
 
 @app.command()
 def AutoMode():

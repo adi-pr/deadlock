@@ -7,29 +7,14 @@ def run_nikto(
     target: str,
     output_dir: Optional[Path],
     timeout: int = 900,
-    ssl: bool = True,
-    extra_args: Optional[list[str]] = None,
+    flag: str = "recon",
     ):
 
-    if output_dir is None:
-        output_dir = Path.cwd() / "output" / "nikto_output"
+    if output_dir:
+        output_dir.mkdir(parents=True, exist_ok=True)
+        log_file = (output_dir / "nikto.txt").resolve()
 
-    output_dir.mkdir(parents=True, exist_ok=True)
-    log_file = (output_dir / "nikto.txt").resolve()
-
-    cmd = [
-        "nikto",
-        "-host",
-        target,
-        "-output",
-        str(log_file),
-    ]
-
-    if not ssl:
-        cmd.append("-nossl")
-
-    if extra_args:
-        cmd.extend(extra_args)
+    cmd = nikto_cmd_builder(target=target, output_dir=output_dir, flag=flag)
 
     result = run_command(cmd, timeout=timeout, output_file=log_file)
 
@@ -50,7 +35,6 @@ def run_nikto(
     summary = {
         "tool": "nikto",
         "target": target,
-        "raw_output": raw_output,
         "exit_code": result.get("exit_code"),
         "duration": result.get("duration"),
         "error": (result.get("stderr") or "").strip() if result.get("exit_code") not in (None, 0) else None,
@@ -58,3 +42,19 @@ def run_nikto(
 
     print(summary)
 
+''' Function to build nikto command based on type of scan (recon vs scan) '''
+def nikto_cmd_builder(target: str, output_dir: Path | None = None, flag: str = "recon") -> list[str]:
+
+    flag_map = {
+        "recon": ["-Display", "V"],
+        "scan": ["-Tuning", "123b"],
+    }
+
+    flags = flag_map.get(flag, [])
+
+    cmd = ["nikto", "-h", target] + flags
+
+    if output_dir:
+        cmd += ["-o", str(output_dir / "nikto.txt"), "-Format", "txt"]
+
+    return cmd
