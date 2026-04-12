@@ -19,13 +19,10 @@ def run_nmap(
     cmd = [
         "sudo",
         "nmap",
-        "-sS",
+        "-sC",
         "-sV",
         "-O",
-        "-p-",
-        "--open",
-        "--script=http-title,http-headers,http-methods",
-        "-oN",
+        "T4",
         str(log_file),
         target,
     ]

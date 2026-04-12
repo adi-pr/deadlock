@@ -116,6 +116,25 @@ def scan(
     #)
 
 @app.command()
+def recon(
+    target: str,
+    timeout: int = 900,
+    output: Path | None = typer.Option(None, "-o", "--output"),
+    web: bool = False,
+):
+    """Run reconnaissance scans"""
+    
+    target = dns_to_ip(target)
+    print(f"current target is {target}")
+    sleep(2)
+
+    call_nmap(locals())
+
+    if web:
+        call_nikto(locals())
+
+
+@app.command()
 def AutoMode():
     pass
 
