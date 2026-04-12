@@ -42,8 +42,6 @@ def run_nikto(
 
     print(summary)
 
-from pathlib import Path
-
 ''' Function to build nikto command based on type of scan (recon vs scan) '''
 def nikto_cmd_builder(target: str, output_dir: Path | None = None, flag: str = "recon") -> list[str]:
 
