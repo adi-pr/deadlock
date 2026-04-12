@@ -10,6 +10,7 @@
 - Deadlock is an AI-targeting Autonomous threat actor designed to highlight the threat of AI in the cyberspace
 - Deadlock takes a single ip address and a target and mutates its attacks to optimise successful attacks on targets
 - Please use this responsibly for its intended purpose of research
+- WE STARTED BEFORE GLASSWING BY ANTROPIC 
 
 ### Setup
 > This system is currently focused for Kali linux but can work on any linux distro if correct modules are installed
