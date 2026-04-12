@@ -24,11 +24,12 @@ def call_nikto(args: dict):
         output_dir=args["output"],
     )
 
-def call_nmap(args: dict):
+def call_nmap(args: dict, flag: str):
     Nmap.run_nmap(
         target=args["target"],
         timeout=args["timeout"],
         output_dir=args["output"],
+        flag=flag
     )
 
 def call_metaploit(args: dict):
@@ -128,7 +129,7 @@ def recon(
     print(f"current target is {target}")
     sleep(2)
 
-    call_nmap(locals())
+    call_nmap(locals(), flag="recon")
 
     if web:
         call_nikto(locals())

@@ -7,7 +7,7 @@ def run_nmap(
     target: str,
     output_dir: Optional[Path],
     timeout: int = 900,
-    extra_args: Optional[list[str]] = None,
+    flag: str = "recon",
     ):
 
     if output_dir is None: # CHANGE REQUIRED -  delete output as we just store stdout live unless output is requested by user
@@ -16,22 +16,9 @@ def run_nmap(
     output_dir.mkdir(parents=True, exist_ok=True)
     log_file = (output_dir / "nmap.txt").resolve()
 
-    cmd = [
-        "sudo",
-        "nmap",
-        "-sC",
-        "-sV",
-        "-O",
-        "T4",
-        str(log_file),
-        target,
-    ]
-    
+    cmd = nmap_cmd_builder(target, output_dir, flag)
     print(f"Running Nmap scan on target: {target}")
     print(f"Command: {' '.join(cmd)}")
-
-    if extra_args:
-        cmd.extend(extra_args)
 
     result = run_command(cmd, timeout=timeout, output_file=log_file)
 
@@ -59,3 +46,23 @@ def run_nmap(
     }
 
     print(summary)
+
+''' Function to build nmap command based on the type of scan (recon vs exploit) '''
+def nmap_cmd_builder(target: str, output_dir: Path, flag: str = "recon") -> list[str]:
+    
+    recon_flags = ["-sC", "-sV", "-O", "T4"]
+    exploit_flags = ["-sV", "--script=vuln", "T4"]
+    
+    cmd = [
+        "sudo",
+        "nmap",
+        str(output_dir / "nmap.txt"),
+        target,
+    ]
+
+    if flag == "recon":
+        cmd[2:2] = recon_flags
+    elif flag == "exploit":
+        cmd[2:2] = exploit_flags
+    
+    return cmd
