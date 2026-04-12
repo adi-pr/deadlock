@@ -120,7 +120,7 @@ def scan(
 def recon(
     target: str,
     timeout: int = 900,
-    output: Path | None = typer.Option(None, "-o", "--output"),
+    output: Path = typer.Option(..., "-o", "--output"),
     web: bool = False,
 ):
     """Run reconnaissance scans"""
