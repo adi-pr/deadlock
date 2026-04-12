@@ -17,11 +17,12 @@ Only target systems you own or are authorized to test on.
 )
 
 #region hook function
-def call_nikto(args: dict):
+def call_nikto(args: dict, flag: str):
     Nikto.run_nikto(
         target=args["target"],
         timeout=args["timeout"],
         output_dir=args["output"],
+        flag=flag
     )
 
 def call_nmap(args: dict, flag: str):
@@ -132,7 +133,7 @@ def recon(
     call_nmap(locals(), flag="recon")
 
     if web:
-        call_nikto(locals())
+        call_nikto(locals(), flag="recon")
 
 
 @app.command()
